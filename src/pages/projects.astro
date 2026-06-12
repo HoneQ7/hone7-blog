@@ -1,0 +1,21 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { projects } from '../data/projects';
+---
+
+<BaseLayout
+  title="项目"
+  description="Hone 的个人项目开发记录，包含课表助手、11408 备考管理工具和算法学习笔记系统。"
+>
+  <section class="page-shell container">
+    <header class="page-header">
+      <p class="eyebrow">Projects</p>
+      <h1>项目</h1>
+      <p class="lead">把学习过程中的高频问题做成可维护的小工具，记录需求、设计、实现和复盘。</p>
+    </header>
+    <div class="project-grid">
+      {projects.map((project) => <ProjectCard project={project} />)}
+    </div>
+  </section>
+</BaseLayout>

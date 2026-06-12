@@ -1,0 +1,43 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import TagList from '../../components/TagList.astro';
+import { formatDate, getReadingTime, getWordCount, sortPosts } from '../../lib/blog';
+
+export async function getStaticPaths() {
+  const posts = sortPosts(await getCollection('blog', ({ data }) => data.draft !== true));
+
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post }
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const wordCount = getWordCount(post.body);
+const readingTime = getReadingTime(post.body);
+---
+
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+  type="article"
+  canonical={new URL(`/blog/${post.id}/`, 'https://www.hone7.one').toString()}
+>
+  <article class="article-shell">
+    <header class="article-header">
+      <p class="eyebrow">Blog Post</p>
+      <h1>{post.data.title}</h1>
+      <div class="article-meta">
+        <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
+        <span>{readingTime} 分钟阅读</span>
+        <span>{wordCount} 字</span>
+      </div>
+      <TagList tags={post.data.tags} />
+    </header>
+    <div class="prose">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>

@@ -1,0 +1,37 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getAllTags } from '../../lib/blog';
+
+const posts = await getCollection('blog', ({ data }) => data.draft !== true);
+const tags = getAllTags(posts);
+const countByTag = new Map<string, number>();
+
+for (const post of posts) {
+  for (const tag of post.data.tags) {
+    countByTag.set(tag, (countByTag.get(tag) ?? 0) + 1);
+  }
+}
+---
+
+<BaseLayout title="标签" description="按标签浏览 Hone7 Blog 的技术文章。">
+  <section class="page-shell container">
+    <header class="page-header">
+      <p class="eyebrow">Tags</p>
+      <h1>标签</h1>
+      <p class="lead">从主题进入文章，适合按算法专题、408 科目和项目类型检索。</p>
+    </header>
+    <ul class="tag-cloud" aria-label="全部标签">
+      {
+        tags.map((tag) => (
+          <li>
+            <a href={`/tags/${encodeURIComponent(tag)}/`}>
+              <strong>{tag}</strong>
+              <span class="tag-count">{countByTag.get(tag)} 篇</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</BaseLayout>

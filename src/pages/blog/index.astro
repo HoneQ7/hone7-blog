@@ -1,0 +1,24 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import { sortPosts } from '../../lib/blog';
+
+const posts = sortPosts(await getCollection('blog', ({ data }) => data.draft !== true));
+---
+
+<BaseLayout
+  title="文章"
+  description="Hone7 Blog 的所有文章，包含算法竞赛、408 考研、AI 学习和项目开发记录。"
+>
+  <section class="page-shell container">
+    <header class="page-header">
+      <p class="eyebrow">Blog</p>
+      <h1>文章</h1>
+      <p class="lead">按时间倒序整理学习笔记、项目记录和技术复盘。</p>
+    </header>
+    <div class="post-list">
+      {posts.map((post) => <PostCard post={post} />)}
+    </div>
+  </section>
+</BaseLayout>
