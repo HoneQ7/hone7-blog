@@ -23,6 +23,7 @@ const {
 const pageTitle = title ? `${title} | ${SITE.title}` : SITE.title;
 const canonicalUrl = canonical ?? new URL(Astro.url.pathname, SITE.url).toString();
 const ogImage = new URL(image, SITE.url).toString();
+const hasWelcomeHero = Astro.url.pathname === '/';
 ---
 
 <!doctype html>
@@ -57,7 +58,7 @@ const ogImage = new URL(image, SITE.url).toString();
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
   </head>
-  <body>
+  <body class:list={{ 'has-welcome-hero': hasWelcomeHero }}>
     <Header />
     <main>
       <slot />
@@ -79,5 +80,31 @@ const ogImage = new URL(image, SITE.url).toString();
         });
       })();
     </script>
+    {
+      hasWelcomeHero && (
+        <script is:inline>
+          (() => {
+            const header = document.querySelector('.site-header');
+            if (!header) return;
+
+            let frameId;
+            const revealThreshold = () => Math.max(80, window.innerHeight * 0.75);
+            const updateHeaderVisibility = () => {
+              frameId = undefined;
+              header.classList.toggle('is-visible', window.scrollY >= revealThreshold());
+            };
+            const scheduleHeaderUpdate = () => {
+              if (frameId !== undefined) return;
+              frameId = window.requestAnimationFrame(updateHeaderVisibility);
+            };
+
+            scheduleHeaderUpdate();
+            window.addEventListener('scroll', scheduleHeaderUpdate, { passive: true });
+            window.addEventListener('resize', scheduleHeaderUpdate);
+            window.addEventListener('pageshow', scheduleHeaderUpdate);
+          })();
+        </script>
+      )
+    }
   </body>
 </html>

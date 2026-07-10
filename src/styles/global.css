@@ -96,6 +96,26 @@ main {
   backdrop-filter: blur(16px);
 }
 
+.has-welcome-hero .site-header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  opacity: 0;
+  transform: translateY(-100%);
+  pointer-events: none;
+  transition:
+    opacity 240ms ease,
+    transform 360ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.has-welcome-hero .site-header.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
 .brand {
   display: inline-flex;
   align-items: center;
@@ -637,6 +657,12 @@ h3 {
 .not-found p {
   max-width: 560px;
   color: var(--text-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .has-welcome-hero .site-header {
+    transition: none;
+  }
 }
 
 @media (max-width: 860px) {
