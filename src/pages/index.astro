@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PostCard from '../components/PostCard.astro';
 import ProjectCard from '../components/ProjectCard.astro';
+import WelcomeHero from '../components/WelcomeHero.astro';
 import { sortPosts } from '../lib/blog';
 import { SITE } from '../lib/site';
 import { projects } from '../data/projects';
@@ -13,7 +14,9 @@ const posts = sortPosts(
 ---
 
 <BaseLayout title="首页" description={SITE.description}>
-  <section class="home-hero">
+  <WelcomeHero />
+
+  <section id="blog-content" class="home-hero">
     <div class="container hero-content">
       <p class="eyebrow">Algorithm / 408 / AI / Project</p>
       <h1>Hone7 Blog</h1>

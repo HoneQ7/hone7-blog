@@ -1,0 +1,210 @@
+.welcome-hero {
+  position: relative;
+  display: grid;
+  min-height: 100vh;
+  min-height: 100svh;
+  overflow: hidden;
+  isolation: isolate;
+  background: url('/images/welcome-hero-rain.png') center / cover no-repeat;
+  color: #fff;
+}
+
+.welcome-hero::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: linear-gradient(
+    125deg,
+    rgb(4 10 20 / 78%) 0%,
+    rgb(4 10 20 / 52%) 55%,
+    rgb(4 10 20 / 68%) 100%
+  );
+  content: '';
+}
+
+.welcome-hero__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: clamp(5.5rem, 12vh, 9rem);
+  padding-bottom: clamp(7.5rem, 17vh, 11rem);
+}
+
+.welcome-hero__eyebrow,
+.welcome-hero__content h1,
+.welcome-hero__description,
+.welcome-hero__quote {
+  opacity: 0;
+  transform: translateY(18px);
+  animation: welcome-fade-up 800ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.welcome-hero__eyebrow {
+  margin: 0 0 18px;
+  color: rgb(255 255 255 / 84%);
+  font-size: clamp(0.72rem, 1.2vw, 0.82rem);
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  line-height: 1.3;
+}
+
+.welcome-hero__content h1 {
+  max-width: 13em;
+  margin: 0;
+  color: #fff;
+  font-size: clamp(2.45rem, 6vw, 5.75rem);
+  letter-spacing: 0.03em;
+  text-wrap: balance;
+  animation-delay: 100ms;
+}
+
+.welcome-hero__description {
+  max-width: 38rem;
+  margin: 20px 0 0;
+  color: rgb(255 255 255 / 90%);
+  font-size: clamp(1rem, 2vw, 1.22rem);
+  animation-delay: 200ms;
+}
+
+.welcome-hero__quote {
+  max-width: min(100%, 36rem);
+  border-left: 2px solid rgb(255 255 255 / 72%);
+  margin: 30px 0 0;
+  padding-left: 16px;
+  color: #fff;
+  animation-delay: 300ms;
+}
+
+.welcome-hero__quote-label {
+  display: block;
+  margin-bottom: 4px;
+  color: rgb(255 255 255 / 68%);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.welcome-hero__quote p {
+  margin: 0;
+  font-size: clamp(0.98rem, 1.7vw, 1.08rem);
+}
+
+.welcome-hero__scroll-cue {
+  position: absolute;
+  bottom: clamp(1.5rem, 4vh, 2.75rem);
+  left: 50%;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: rgb(255 255 255 / 88%);
+  font-size: 0.73rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  transform: translate(-50%, 18px);
+  animation: welcome-scroll-cue-fade-up 800ms cubic-bezier(0.22, 1, 0.36, 1) 500ms forwards;
+}
+
+.welcome-hero__scroll-cue:hover {
+  color: #fff;
+}
+
+.welcome-hero__scroll-cue:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 6px;
+}
+
+.welcome-hero__mouse {
+  display: grid;
+  width: 22px;
+  height: 34px;
+  place-items: start center;
+  border: 1.5px solid currentColor;
+  border-radius: 999px;
+  padding-top: 6px;
+}
+
+.welcome-hero__mouse span {
+  width: 3px;
+  height: 6px;
+  border-radius: 999px;
+  background: currentColor;
+  animation: welcome-scroll-wheel 1.8s ease-in-out infinite;
+}
+
+@keyframes welcome-fade-up {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes welcome-scroll-wheel {
+  0%,
+  100% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+
+  25% {
+    opacity: 1;
+  }
+
+  70% {
+    opacity: 0;
+    transform: translateY(11px);
+  }
+}
+
+@keyframes welcome-scroll-cue-fade-up {
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+@media (max-width: 620px) {
+  .welcome-hero__content {
+    padding-top: 5rem;
+    padding-bottom: 8rem;
+  }
+
+  .welcome-hero__eyebrow {
+    margin-bottom: 14px;
+    letter-spacing: 0.16em;
+  }
+
+  .welcome-hero__description {
+    margin-top: 16px;
+  }
+
+  .welcome-hero__quote {
+    margin-top: 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .welcome-hero__eyebrow,
+  .welcome-hero__content h1,
+  .welcome-hero__description,
+  .welcome-hero__quote,
+  .welcome-hero__scroll-cue,
+  .welcome-hero__mouse span {
+    animation: none;
+  }
+
+  .welcome-hero__eyebrow,
+  .welcome-hero__content h1,
+  .welcome-hero__description,
+  .welcome-hero__quote {
+    opacity: 1;
+    transform: none;
+  }
+
+  .welcome-hero__scroll-cue {
+    opacity: 1;
+    transform: translateX(-50%);
+  }
+}

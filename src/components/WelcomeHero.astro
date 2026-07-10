@@ -1,0 +1,67 @@
+---
+import '../styles/welcome-hero.css';
+
+const quotes = [
+  '保持好奇，答案会在路上出现。',
+  '把今天的微小进步，写成明天的底气。',
+  '慢一点也没关系，持续向前就好。',
+  '愿每一次思考，都通向更清醒的自己。',
+  '技术改变世界，热爱照亮日常。',
+  '在有限的时间里，认真完成每一件小事。',
+  '行路虽远，仍需脚踏实地。'
+];
+
+const today = new Date();
+const dayNumber = Math.floor(
+  Date.UTC(today.getFullYear(), today.getMonth(), today.getDate()) / 86_400_000
+);
+const dailyQuote = quotes[dayNumber % quotes.length];
+---
+
+<section class="welcome-hero" aria-labelledby="welcome-hero-title">
+  <div class="welcome-hero__content container">
+    <p class="welcome-hero__eyebrow">WELCOME TO MY BLOG</p>
+    <h1 id="welcome-hero-title">欢迎来到我的个人空间</h1>
+    <p class="welcome-hero__description">记录学习、技术、思考与生活碎片。</p>
+    <blockquote
+      class="welcome-hero__quote"
+      data-welcome-quote-container
+      data-quotes={JSON.stringify(quotes)}
+    >
+      <span class="welcome-hero__quote-label">每日一句</span>
+      <p data-welcome-quote>{dailyQuote}</p>
+    </blockquote>
+  </div>
+
+  <a class="welcome-hero__scroll-cue" href="#blog-content" aria-label="向下滚动，查看博客内容">
+    <span class="welcome-hero__mouse" aria-hidden="true"><span></span></span>
+    <span>向下滚动</span>
+  </a>
+</section>
+
+<script>
+  const quoteElement = document.querySelector<HTMLElement>('[data-welcome-quote]');
+  const quoteContainer = quoteElement?.closest<HTMLElement>('[data-welcome-quote-container]');
+
+  const updateDailyQuote = () => {
+    if (!quoteElement || !quoteContainer?.dataset.quotes) return;
+
+    const quotes = JSON.parse(quoteContainer.dataset.quotes) as string[];
+    const now = new Date();
+    const dayNumber = Math.floor(
+      Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) / 86_400_000
+    );
+
+    quoteElement.textContent = quotes[dayNumber % quotes.length];
+  };
+
+  updateDailyQuote();
+
+  const now = new Date();
+  const nextDay = new Date(now);
+  nextDay.setHours(24, 0, 1, 0);
+  window.setTimeout(() => {
+    updateDailyQuote();
+    window.setInterval(updateDailyQuote, 86_400_000);
+  }, nextDay.getTime() - now.getTime());
+</script>
