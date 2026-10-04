@@ -1,8 +1,8 @@
 ---
 title: "2025 CCPC Jinan reg review"
 description: "2026_10_04 训练赛复盘总结"
-pubDate: 2026-10—04
-tags: ["ACM","算法竞赛"，"比赛复盘"]
+pubDate: 2026-10-04
+tags: ["算法竞赛","比赛复盘"]
 featured: true
 ---
 
@@ -154,6 +154,3 @@ int main() {
 一句话总结
 把每轮"扔到队尾的小值"存成 $a_{n+i}=\min(a_{2i-1},a_{2i})$，整个比较过程就变成了一棵高 $O(\log n)$ 的 min 锦标赛树；每轮选中的数就是内部结点的 max。交换只需更新两条叶子到根的路径（$O(\log n)$ 个点），再用树状数组维护 max 数组做区间和即可。
 如果你想，我可以再带你把样例逐步用这套"树 + 树状数组"手动走一遍，帮助加深印象。
-Build · DeepSeek V4.1 Flash · 54.0s · 242.2 tok/s
-Build·DeepSeek V4.1 FlashDeepSeek·low
-~
